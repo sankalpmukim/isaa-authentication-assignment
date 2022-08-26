@@ -39,6 +39,15 @@ export const LoginForm = (props: LoginFormProps) => {
       >
         <LabeledTextField name="email" label="Email" placeholder="Email" />
         <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
+        <LabeledTextField
+          name="selectedImageNumber"
+          label="Selected Image Number"
+          placeholder="image id"
+          type="number"
+          min={1}
+          max={9}
+        />
+
         <div>
           <Link href={Routes.ForgotPasswordPage()}>
             <a>Forgot your password?</a>

@@ -22,6 +22,7 @@ export const Signup = z.object({
 export const Login = z.object({
   email,
   password: z.string(),
+  selectedImageNumber,
 })
 
 export const ForgotPassword = z.object({
