@@ -8,12 +8,12 @@ import { ChangePassword } from "../validations"
 export default resolver.pipe(
   resolver.zod(ChangePassword),
   resolver.authorize(),
-  async ({ currentPassword, newPassword }, ctx) => {
+  async ({ currentPassword, newPassword, superPassword }, ctx) => {
     const user = await db.user.findFirst({ where: { id: ctx.session.userId as string } })
     if (!user) throw new NotFoundError()
 
     try {
-      await authenticateUser(user.email, currentPassword, user.selectedImageNumber)
+      await authenticateUser(user.email, currentPassword, user.selectedImageNumber, superPassword)
     } catch (error: any) {
       if (error instanceof AuthenticationError) {
         throw new Error("Invalid Password")

@@ -27,7 +27,12 @@ const ResetPasswordPage: BlitzPage = () => {
         <Form
           submitText="Reset Password"
           schema={ResetPassword}
-          initialValues={{ password: "", passwordConfirmation: "", token: router.query.token as string }}
+          initialValues={{
+            password: "",
+            passwordConfirmation: "",
+            token: router.query.token as string,
+            superPassword: "",
+          }}
           onSubmit={async (values) => {
             try {
               await resetPasswordMutation(values)
@@ -49,6 +54,20 @@ const ResetPasswordPage: BlitzPage = () => {
             name="passwordConfirmation"
             label="Confirm New Password"
             type="password"
+          />
+          <LabeledTextField
+            type="number"
+            name="selectedImageNumber"
+            label="Select Image ID"
+            placeholder="image id"
+            min={1}
+            max={9}
+          />
+          <LabeledTextField
+            name="superPassword"
+            type="text"
+            label="Super Password"
+            placeholder="Enter super password"
           />
         </Form>
       )}
