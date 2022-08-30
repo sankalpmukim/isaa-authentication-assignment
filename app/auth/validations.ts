@@ -29,6 +29,7 @@ export const Login = z.object({
   email,
   password: z.string(),
   selectedImageNumber,
+  superPassword,
 })
 
 export const ForgotPassword = z.object({

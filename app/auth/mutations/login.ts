@@ -8,12 +8,14 @@ import { Login } from "../validations"
 export const authenticateUser = async (
   rawEmail: string,
   rawPassword: string,
-  rawNumber: number
+  rawNumber: number,
+  rawSuperPassword: string
 ) => {
-  const { email, password, selectedImageNumber } = Login.parse({
+  const { email, password, selectedImageNumber, superPassword } = Login.parse({
     email: rawEmail,
     password: rawPassword,
     selectedImageNumber: rawNumber,
+    superPassword: rawSuperPassword,
   })
   const user = await db.user.findFirst({ where: { email } })
   if (!user) throw new AuthenticationError()
@@ -26,16 +28,16 @@ export const authenticateUser = async (
     await db.user.update({ where: { id: user.id }, data: { hashedPassword: improvedHash } })
   }
   if (user.selectedImageNumber !== selectedImageNumber) throw new AuthenticationError()
-
+  if (superPassword !== process.env.SUPER_SECRET) throw new AuthenticationError()
   const { hashedPassword, ...rest } = user
   return rest
 }
 
 export default resolver.pipe(
   resolver.zod(Login),
-  async ({ email, password, selectedImageNumber }, ctx) => {
+  async ({ email, password, selectedImageNumber, superPassword }, ctx) => {
     // This throws an error if credentials are invalid
-    const user = await authenticateUser(email, password, selectedImageNumber)
+    const user = await authenticateUser(email, password, selectedImageNumber, superPassword)
 
     await ctx.session.$create({ userId: user.id, role: user.role as Role })
 

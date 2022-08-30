@@ -40,10 +40,16 @@ export const LoginForm = (props: LoginFormProps) => {
         <LabeledTextField name="email" label="Email" placeholder="Email" />
         <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
         <LabeledTextField
-          name="selectedImageNumber"
-          label="Selected Image Number"
-          placeholder="image id"
+          name="superPassword"
+          label="Super Password"
+          placeholder="Enter super key"
+          type="text"
+        />
+        <LabeledTextField
           type="number"
+          name="selectedImageNumber"
+          label="Select Image ID"
+          placeholder="image id"
           min={1}
           max={9}
         />
