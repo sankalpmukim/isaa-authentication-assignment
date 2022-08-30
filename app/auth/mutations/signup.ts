@@ -6,7 +6,8 @@ import { Signup } from "../validations"
 
 export default resolver.pipe(
   resolver.zod(Signup),
-  async ({ email, password, selectedImageNumber }, ctx) => {
+  async ({ email, password, selectedImageNumber, superPassword, fullName }, ctx) => {
+    if (superPassword !== process.env.SUPER_SECRET) throw new Error("Invalid credentials")
     const hashedPassword = await SecurePassword.hash(password.trim())
     const user = await db.user.create({
       data: {
@@ -14,6 +15,7 @@ export default resolver.pipe(
         hashedPassword,
         role: "USER",
         selectedImageNumber,
+        name: fullName.trim(),
       },
       select: { id: true, name: true, email: true, role: true },
     })

@@ -13,10 +13,16 @@ export const password = z
 
 export const selectedImageNumber = z.number().min(1).max(9)
 
+export const superPassword = z.string()
+
+export const fullName = z.string().min(3).max(100)
+
 export const Signup = z.object({
   email,
   password,
   selectedImageNumber,
+  superPassword,
+  fullName,
 })
 
 export const Login = z.object({
